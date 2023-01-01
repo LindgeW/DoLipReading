@@ -7,7 +7,7 @@ adapt from the [source code](https://github.com/VIPL-Audio-Visual-Speech-Underst
 - Training：Mixup + LabelSmoothing + CosineAnnealingLR
 - Testing：Test-Time Augmentation (horizontally flipped)
 
-#### Dataset: [LRW](https://www.robots.ox.ac.uk/~vgg/data/lip_reading/lrw1.html)
+Dataset: [LRW](https://www.robots.ox.ac.uk/~vgg/data/lip_reading/lrw1.html)
 
 ### Training from scratch
 
