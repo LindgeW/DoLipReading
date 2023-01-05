@@ -27,5 +27,5 @@ python main_visual_audio.py --gpus=0 --lr=3e-4 --batch_size=50 --num_workers=0 -
 0/ --n_class=1000 --dataset=lrw1000 --border=False --mixup=True --label_smooth=True --se=True --weights=checkpoints/av-model.pt
 
 
-## Resource
+### Resources
 Audio-Visual LipReading：https://github.com/mpc001/end-to-end-lipreading/tree/master/audiovisual
