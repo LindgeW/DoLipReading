@@ -1,6 +1,6 @@
 ## Word-level LipReading
 
-adapt from the [source code](https://github.com/VIPL-Audio-Visual-Speech-Understanding/learn-an-effective-lip-reading-model-without-pains) of [Learn an Effective Lip Reading Model without Pains](https://arxiv.org/pdf/2011.07557.pdf) and integrate the audio features.
+Adapted from the [source code](https://github.com/VIPL-Audio-Visual-Speech-Understanding/learn-an-effective-lip-reading-model-without-pains) of [Learn an Effective Lip Reading Model without Pains](https://arxiv.org/pdf/2011.07557.pdf) and integrate the audio features.
 
 - Frontend：3DCNN + SEResNet (for Video) + LogMelSpec + 1DCNN (for Audio)
 - Backend：BiGRU + Softmax
