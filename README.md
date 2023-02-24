@@ -1,2 +1,3 @@
 # DoLipReading
-Focus on Lipreading research
+
+Audio-Visual Speech Recognition
