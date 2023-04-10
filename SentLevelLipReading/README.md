@@ -14,7 +14,7 @@ python train.py --cuda 0 --phase train --batch_size 32 --num_workers 2 [--weight
 #### Testing
 
 ```
-python train.py --cuda 0 --phase test --batch_size 32 --load checkpoints/grid/best.ep10.pt --align_root /content/grid/align_txt --video_root /content/grid/lip
+python train.py --cuda 0 --phase test --batch_size 32 --load checkpoints/grid/best.ep10.pt --enc_layers 6 --dec_layers 6 --tgt_vocab_size 30 --align_root /content/grid/align_txt --video_root /content/grid/lip
 ```
 
 #### Resources
