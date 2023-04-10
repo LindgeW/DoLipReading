@@ -5,7 +5,8 @@ import numpy as np
 
 # dlib可以检测图像中的人脸，并且可以检测出人脸上的68个关键点，
 # 其中后20个点表示了唇部的关键点，因此可以使用dlib检测人脸并通过嘴部关键点得到嘴部图像
-
+# http://dlib.net/face_landmark_detection.py.html
+    
 def mouth_detect():
     CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
     face_file = os.path.join(CURRENT_PATH, "video", "1.jpg")
