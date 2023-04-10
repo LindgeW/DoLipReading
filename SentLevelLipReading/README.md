@@ -1,9 +1,8 @@
 ### Sentence-level LipReading
 
-Architecture: 3DCNN + Transformer + CTC/Attention + BeamSearch
+Architecture: *3DCNN + Transformer + CTC/Attention + BeamSearch*
 
 Dataset: [GRID](https://spandh.dcs.shef.ac.uk/gridcorpus/)
-
 
 #### Training 
 
@@ -17,3 +16,11 @@ python train.py --cuda 0 --phase train --batch_size 32 --num_workers 2 [--weight
 ```
 python train.py --cuda 0 --phase test --batch_size 32 --load checkpoints/grid/best.ep10.pt --align_root /content/grid/align_txt --video_root /content/grid/lip
 ```
+
+#### Resources
++ https://github.com/arxrean/LipRead-seq2seq
++ https://github.com/bentrevett/pytorch-seq2seq
++ https://github.com/budzianowski/PyTorch-Beam-Search-Decoding
++ https://github.com/liuxubo717/V-ACT/blob/main/tools/beam.py
++ https://github.com/haantran96/wavetransformer/blob/main/modules/beam.py
++ https://github.com/prajwalkr/vtp/blob/master/search.py
