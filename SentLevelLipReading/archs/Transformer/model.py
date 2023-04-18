@@ -172,7 +172,7 @@ class DecoderLayer(nn.Module):
 class VisualFrontEnd(nn.Module):
     def __init__(self, in_channel=3, hidden_dim=64, out_channel=512, drop_rate=0.3):
         super(VisualFrontEnd, self).__init__()
-        # 3DCNN + ResNet18 + GlobalPooling
+        # 3DCNN + ResNet18 + Pooling
         self.stcnn = nn.Sequential(OrderedDict([
             # grayscale for 1, rgb for 3
             ('conv', nn.Conv3d(in_channel, hidden_dim, kernel_size=(5, 7, 7), stride=(1, 2, 2), padding=(2, 3, 3),
@@ -180,10 +180,11 @@ class VisualFrontEnd(nn.Module):
             ('norm', nn.BatchNorm3d(hidden_dim)),
             ('relu', nn.ReLU(inplace=True)),
             ('dropout', nn.Dropout3d(drop_rate)),   # (B, C, T, H, W)，对每一个通道维度C按概率赋值为0
+            # 注：这里并非GlobalPooling
             ('pool', nn.MaxPool3d(kernel_size=(1, 3, 3), stride=(1, 2, 2), padding=(0, 1, 1)))]))
 
-        # self.fc_out = nn.Linear(32768, out_channel)
-        self.fc_out = nn.Linear(hidden_dim, out_channel)
+        self.fc_out = nn.Linear(32768, out_channel)
+        # self.fc_out = nn.Linear(hidden_dim, out_channel)
 
     def forward(self, x):   # (B, C, T, H, W)
         cnn = self.stcnn(x)  # (B, D, T, H, W)
