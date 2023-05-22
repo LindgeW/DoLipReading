@@ -157,11 +157,21 @@ def evaluate(opt):
     print('overall wer: {:.4f}, cer: {:.4f}'.format(np.mean(wer_list), np.mean(cer_list)))
 
 
+def set_seeds(seed=1349):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
+
+    
 if __name__ == '__main__':
     print('cuda available:', torch.cuda.is_available())
     print('cuDNN available:', torch.backends.cudnn.enabled)
     print('gpu numbers:', torch.cuda.device_count())
     opt = get_arg_parser()
+    set_seeds(1347)
     opt.device = torch.device('cuda', opt.cuda) if torch.cuda.is_available() and opt.cuda >= 0 else torch.device('cpu')
     print(opt.device)
     if opt.phase == 'test':
