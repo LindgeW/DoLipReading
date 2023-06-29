@@ -1,0 +1,86 @@
+import editdistance
+import numpy as np
+from jiwer import cer, wer
+
+
+def levenshtein(a, b):
+    """Calculates the Levenshtein distance between a and b.
+    The code was taken from: http://hetland.org/coding/python/levenshtein.py
+    """
+    n, m = len(a), len(b)
+    if n > m:
+        # Make sure n <= m, to use O(min(n,m)) space
+        a, b = b, a
+        n, m = m, n
+    current = list(range(n + 1))
+    for i in range(1, m + 1):
+        previous, current = current, [i] + [0] * n
+        for j in range(1, n + 1):
+            add, delete = previous[j] + 1, current[j - 1] + 1
+            change = previous[j - 1]
+            if a[j - 1] != b[i - 1]:
+                change = change + 1
+            current[j] = min(add, delete, change)
+    return current[n]
+
+
+def edit_dist(s1, s2):
+    m = len(s1)
+    n = len(s2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    for i in range(m + 1):
+        for j in range(n + 1):
+            if i == 0:
+                dp[i][j] = j
+            elif j == 0:
+                dp[i][j] = i
+            else:
+                d = 0 if s1[i - 1] == s2[j - 1] else 1
+                dp[i][j] = min(1 + dp[i][j - 1], 1 + dp[i - 1][j], d + dp[i - 1][j - 1])
+    return dp[m][n]
+
+
+def my_wer(r, h):
+    # initialisation
+    d = np.zeros((len(r) + 1) * (len(h) + 1), dtype=np.uint8)
+    d = d.reshape((len(r) + 1, len(h) + 1))
+    for i in range(len(r) + 1):
+        for j in range(len(h) + 1):
+            if i == 0:
+                d[0][j] = j
+            elif j == 0:
+                d[i][0] = i
+    # computation
+    for i in range(1, len(r) + 1):
+        for j in range(1, len(h) + 1):
+            if r[i - 1] == h[j - 1]:
+                d[i][j] = d[i - 1][j - 1]
+            else:
+                substitution = d[i - 1][j - 1] + 1
+                insertion = d[i][j - 1] + 1
+                deletion = d[i - 1][j] + 1
+                d[i][j] = min(substitution, insertion, deletion)
+    return d[len(r)][len(h)]
+
+
+s1 = 'In this section we just discuss the data processing pipeline !'.split()
+s2 = 'In this section , we discuss the data processing pipeline .'.split()
+ed1 = editdistance.eval(s1, s2)
+ed2 = edit_dist(s1, s2)
+ed3 = levenshtein(s1, s2)
+print(ed1, ed2, ed3)
+print(my_wer(s1, s2))
+
+print(wer('hello world', 'hello duck'), edit_dist('hello world'.split(), 'hello duck'.split()) / 2)
+print('=================')
+print(cer('电子科大', '电子科技'))
+ground_truth = ["hello world", "i like monthy python"]
+hypothesis = ["hello duck", "i like python"]
+print(wer(ground_truth, hypothesis))
+s = levenshtein(ground_truth[0].split() + ground_truth[1].split(), hypothesis[0].split()+hypothesis[1].split()) / len(ground_truth[0].split() + ground_truth[1].split())
+print(s)
+s = (levenshtein(ground_truth[0].split(), hypothesis[0].split()) + levenshtein(ground_truth[1].split(), hypothesis[1].split())) / (len(ground_truth[0].split()) + len(ground_truth[1].split()))
+print(s)
+s = (levenshtein(ground_truth[0].split(), hypothesis[0].split()) / len(ground_truth[0].split()) +
+    levenshtein(ground_truth[1].split(), hypothesis[1].split()) / len(ground_truth[1].split())) / 2
+print(s)
